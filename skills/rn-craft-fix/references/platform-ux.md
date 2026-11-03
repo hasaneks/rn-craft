@@ -7,9 +7,9 @@ both; where they differ, branch on `Platform.OS` only for the difference.
 
 | Job | Use | Not |
 |---|---|---|
-| Pick one of a few options, filter, sort | Bottom sheet (detents: medium/large) or a native menu | Centered modal card |
-| Confirm a destructive action | Native alert (`Alert.alert`, destructive style) or an undo snackbar | Custom dialog |
-| Actions on an item | iOS context menu / action sheet; Android menu or bottom sheet | Row of tiny icon buttons |
+| Pick one of a few options, filter, sort | Bottom sheet with a selectable list | Centered modal card, native menu |
+| Confirm a destructive action | The app's `ConfirmSheet` (destructive style) or an undo toast | `Alert.alert`, centered dialog |
+| Actions on an item | The app's `ActionSheet` (bottom sheet with icon rows) | `ActionSheetIOS`, native context menu, row of tiny icon buttons |
 | Short form (1-3 fields) | Bottom sheet with the keyboard, submit pinned above it | Full-screen modal |
 | Long form, multi-step flow | Pushed screen(s) in the stack, or a page/form sheet on iOS | Modal over modal |
 | Media viewer, camera | Full-screen modal presentation | Sheet |
@@ -24,7 +24,7 @@ Libraries: `@gorhom/bottom-sheet`, native stack `presentation: 'formSheet'` with
 ## Navigation
 
 - Native stack (`@react-navigation/native-stack`, `expo-router`). iOS: swipe from the edge goes back, never disable
-  it except to protect unsaved input (then ask with a native alert). Android: system back and predictive back.
+  it except to protect unsaved input (then ask with the app's `ConfirmSheet`). Android: system back and predictive back.
 - iOS: large title on root list screens that collapses on scroll; inline title on detail screens. Back button shows
   the previous title or "Back". Android: top app bar, title left-aligned, up arrow.
 - Header actions: at most two icons on the trailing side; the most frequent action there, others in a menu.
@@ -33,16 +33,23 @@ Libraries: `@gorhom/bottom-sheet`, native stack `presentation: 'formSheet'` with
 
 ## Controls
 
-| Need | iOS | Android |
+Controls are the app's own shared components, themed from tokens and identical in look on both platforms. They
+borrow platform behaviour, not system UI.
+
+| Need | Use | Not |
 |---|---|---|
-| Date/time | Inline or compact `UIDatePicker` (`@react-native-community/datetimepicker`) | Material date picker dialog |
-| On/off | `Switch` (green track) | Material switch |
-| 2-4 exclusive views | Segmented control | Segmented buttons / tabs |
-| Choose one of many | Menu or pushed list with checkmark | Menu, or bottom sheet with radio list |
-| Refresh | `RefreshControl` | `RefreshControl` (Material spinner) |
-| Share | `Share.share` (system sheet) | same |
-| Pressed feedback | opacity/highlight | `android_ripple` |
-| Transient message | Inline banner or toast at top/bottom, no buttons | Snackbar with one optional action |
+| Date/time | The app's `DatePicker` in a bottom sheet (wheel or calendar built on the theme) | `@react-native-community/datetimepicker` dialogs, system pickers |
+| On/off | The app's `Switch` (Reanimated thumb, `accessibilityRole="switch"`) | RN `Switch` with default colours |
+| 2-4 exclusive views | The app's `SegmentedControl` | System segmented control |
+| Choose one of many | Bottom sheet with a selectable list and check mark | Native menu |
+| Confirm / yes-no | `ConfirmSheet` with title, one line, primary and cancel | `Alert.alert` |
+| Refresh | `RefreshControl` tinted from tokens | Custom pull gesture |
+| Share | `Share.share` (system share sheet: no replacement) | Custom share UI |
+| Pressed feedback | iOS: opacity/highlight; Android: `android_ripple` | Same feedback on both |
+| Transient message | The app's toast, one optional action | Stacked toasts |
+
+Kept as system UI because nothing can replace it: permission prompts, the share sheet, store purchase and review
+dialogs, keyboard, notifications.
 
 ## Layout and ergonomics
 
@@ -51,7 +58,9 @@ Libraries: `@gorhom/bottom-sheet`, native stack `presentation: 'formSheet'` with
 - Primary action of a form screen: bottom, full width, above the keyboard and the home indicator. Quick actions:
   header trailing slot.
 - Safe areas on every edge; Android 15+ is edge-to-edge by default, so the status and navigation bars overlap your
-  content unless you pad for the insets.
+  content unless you pad for the insets. Android 3-button and gesture navigation give very different bottom insets;
+  iPhones with and without a home indicator differ too. Full rules and the device check list: `rn-craft` →
+  `references/safe-area.md`.
 - Keyboard: `react-native-keyboard-controller` (`KeyboardAwareScrollView`, `KeyboardStickyView`); return key moves to
   the next field (`returnKeyType="next"`, `submitBehavior`), the last field submits; correct `keyboardType`,
   `textContentType` / `autoComplete` for autofill and one-time codes.
@@ -63,7 +72,7 @@ Libraries: `@gorhom/bottom-sheet`, native stack `presentation: 'formSheet'` with
 - Haptics: light impact for success or snapping into place, notification haptic for errors; never on every tap.
 - Skeletons for content, spinners for actions, pull-to-refresh for lists, empty states with the first action, error
   states with retry. Offline: show cached data and say it is offline.
-- Destructive: red, confirmation or undo, never the default button in an alert.
+- Destructive: error colour, a `ConfirmSheet` or undo, never the primary-styled button.
 
 ## Typography and icons
 

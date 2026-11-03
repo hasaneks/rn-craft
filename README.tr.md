@@ -28,15 +28,15 @@ rn-craft bu hataları iki yerde yakalar:
 | | Ne | Ne zaman devreye girer |
 |---|---|---|
 | **`eslint-plugin-rn-craft`** | Görsel, UX, animasyon, erişilebilirlik, metin, render, state ve liste hataları için 21 lint kuralı | Editörde, CI'da ve ajan her `lint` çalıştırdığında |
-| **Agent skill'leri** | `rn-craft`, `rn-craft-fix`, `rn-craft-perf`: ekran yazma, düzeltme ve ölçme rehberleri | Ajan kodu yazarken, lint daha çalışmadan |
+| **Agent skill'leri** | `rn-craft`, `rn-craft-fix`, `rn-craft-perf`, `rn-craft-init`, `rn-craft-arch`: ekran yazma, düzeltme, ölçme, proje kurma ve özellik entegrasyonu rehberleri | Ajan kodu yazarken, lint daha çalışmadan |
 
 Koddan okunabilen hataları lint yakalar. Gerisini skill'ler kapsar: platform kalıpları, animasyon süreleri, state'in
 nerede tutulacağı ve nasıl ölçüleceği.
 
 ## Bir bakışta
 
-- **Web değil, native.** Ortalanmış modal yerine bottom sheet. Native stack. Platform kontrolleri, başparmak
-  bölgesi, safe area, klavye.
+- **Web değil, native.** Ortalanmış modal yerine bottom sheet. Native stack. Platform davranışını koruyan kendi
+  temalı bileşenler, başparmak bölgesi, her cihazda safe area, klavye.
 - **Animasyon UI thread'inde.** JS ile sürülen animasyon yok. Yalnızca transform ve opacity. 150-300 ms. Zıplama ve
   sonsuz döngü yok. Hareketi Azalt ayarına uyulur.
 - **Tek görsel ölçek.** 4 pt boşluk ızgarası, bir radius ölçeği, bir yazı ölçeği ve tema renkleri. Font ağırlığı
@@ -189,14 +189,26 @@ kurulu kendi `Button`'ınız. Kuralı o dosyalar için, nedenini söyleyen bir y
 | [`rn-craft`](skills/rn-craft/SKILL.md) | Herhangi bir ekran, bileşen, liste, sheet, animasyon ya da store kodu yazılırken veya incelenirken | Yazarken uyulacak kurallar: platform kalıpları, animasyon, ölçek, erişilebilirlik, re-render, state'in yeri |
 | [`rn-craft-fix`](skills/rn-craft-fix/SKILL.md) | Bir ekran üretilmiş gibi görünüyor ya da native hissettirmiyorsa | Ekranı inceler, bir yön seçer, adım adım düzeltir ve her adımı öncesi ve sonrasıyla gösterir |
 | [`rn-craft-perf`](skills/rn-craft-perf/SKILL.md) | Bir ekran yavaşsa, takılıyorsa ya da çok fazla render ediyorsa | Önce ölçer (React DevTools Profiler, Perf Monitor, Flashlight, Instruments), sonra re-render, state, liste, animasyon ve açılış süresini düzeltir |
+| [`rn-craft-init`](skills/rn-craft-init/SKILL.md) | Yeni uygulama başlatırken, stack seçerken, ortam eklerken ya da React Native sürümü yükseltirken | Ürün bilgisi toplama, sabitlenmiş uyumluluk tablosuyla en son kararlı React Native, varsayılan olarak Community CLI, Yarn, dev/staging/prod kimlikleri, feature bazlı klasör yapısı, `STACK.md` |
+| [`rn-craft-arch`](skills/rn-craft-arch/SKILL.md) | API katmanı, depolama, çoklu dil, izinler, Firebase, satın alma, reklam, kamera, OTA, test ya da yayın üzerinde çalışırken | RTK Query, Keychain/Keystore anahtarlı MMKV, i18next, soft permission, push, Adapty, AdMob, AWS üzerinde Hot Updater, zorunlu güncelleme ve özellik kapatma, mağaza uyumluluğu ve bir işin ne zaman bitmiş sayılacağı |
 
 Projenin `DESIGN.md` dosyası varsayılanların önüne geçer. Ev kurallarınızı oraya yazın: marka rengi, kullanılacak
 bileşenler ve ürününüzün asla yapmadığı şeyler. Skill'ler önce onu okur.
 
+### Ekip stack'i: `STACK.md`
+
+`rn-craft-init` ve `rn-craft-arch` varsayılan bir stack ile gelir: Community CLI, TypeScript, Yarn, React
+Navigation, Redux Toolkit + RTK Query, MMKV, i18next, react-hook-form + Zod, Reanimated, `@gorhom/bottom-sheet`,
+React Native Firebase; ürün gerektirdiğinde Adapty, AdMob, Vision Camera, Skia ve Hot Updater. Projenin `STACK.md`
+dosyası bunların herhangi birini değiştirebilir ve ajanın tahmin etmemesi gereken kararları tutar, örneğin bundle id
+öneki (`com.limoncreatif` → `com.limoncreatif.<appslug>`). Şablon:
+[`skills/rn-craft-init/references/stack-template.md`](skills/rn-craft-init/references/stack-template.md).
+
 ## Sık sorulanlar
 
 **Expo ile çalışır mı?** Evet. Kurallar düz React Native kodunu okur; Expo, bare React Native ve Expo Router'ın
-hepsiyle çalışır.
+hepsiyle çalışır. `rn-craft-init` yeni uygulamaları siz Expo istemedikçe Community CLI ile kurar; mevcut bir Expo
+uygulamasını Expo'da bırakır.
 
 **`@react-native/eslint-config` ya da `eslint-plugin-react-native` yerine mi geçer?** Hayır, onların yanında
 çalışır. Onlar JavaScript ve React doğruluğuna bakar. rn-craft uygulamanın nasıl göründüğüne, hareket ettiğine ve

@@ -28,15 +28,15 @@ rn-craft catches these mistakes in two places:
 | | What it is | When it acts |
 |---|---|---|
 | **`eslint-plugin-rn-craft`** | 21 lint rules for visual, UX, motion, accessibility, copy, rendering, state and list mistakes | In the editor, in CI, and every time an agent runs `lint` |
-| **Agent skills** | `rn-craft`, `rn-craft-fix`, `rn-craft-perf`: playbooks for building, fixing and profiling screens | While the agent writes code, before lint ever runs |
+| **Agent skills** | `rn-craft`, `rn-craft-fix`, `rn-craft-perf`, `rn-craft-init`, `rn-craft-arch`: playbooks for building, fixing and profiling screens, setting up projects and wiring features | While the agent writes code, before lint ever runs |
 
 Lint catches what can be read from code. The skills cover the rest: platform patterns, motion timing, where state
 lives, how to measure.
 
 ## At a glance
 
-- **Native, not web.** Bottom sheets instead of centered modals. Native stack. Platform controls, thumb zone, safe
-  areas, keyboard.
+- **Native, not web.** Bottom sheets instead of centered modals. Native stack. Own themed controls with platform
+  behaviour, thumb zone, safe areas on every device, keyboard.
 - **Motion on the UI thread.** No JS-driven animation. Transform and opacity only. 150-300 ms. No bounce and no
   endless loops. Reduce Motion is respected.
 - **One visual scale.** 4 pt spacing grid, a radius scale, a type scale and theme colours. Weights stop at 700 and
@@ -187,14 +187,26 @@ Some files break a rule on purpose: the theme file defines raw colours, brand ar
 | [`rn-craft`](skills/rn-craft/SKILL.md) | Building or reviewing any screen, component, list, sheet, animation or store code | Rules to follow while writing: platform patterns, motion, scale, accessibility, re-renders, state placement |
 | [`rn-craft-fix`](skills/rn-craft-fix/SKILL.md) | A screen looks generated or does not feel native | Audits the screen, picks a direction, fixes it one pass at a time and shows each step before and after |
 | [`rn-craft-perf`](skills/rn-craft-perf/SKILL.md) | A screen is slow, janky or re-renders too much | Measures first (React DevTools Profiler, Perf Monitor, Flashlight, Instruments), then fixes re-renders, state, lists, animation and startup |
+| [`rn-craft-init`](skills/rn-craft-init/SKILL.md) | Starting a new app, choosing the stack, adding environments, upgrading React Native | Product intake, latest stable React Native with a pinned compatibility table, Community CLI by default, Yarn, dev/staging/prod identities, feature-based structure, `STACK.md` |
+| [`rn-craft-arch`](skills/rn-craft-arch/SKILL.md) | Building the API layer, storage, i18n, permissions, Firebase, purchases, ads, camera, OTA, tests or a release | RTK Query, MMKV with Keychain/Keystore keys, i18next, soft permissions, push, Adapty, AdMob, Hot Updater on AWS, force update and kill switches, store compliance, and when a feature counts as done |
 
 A project's `DESIGN.md` overrides the defaults. Put your house rules there: the brand accent, the components to
 use, and what your product never does. The skills read it first.
 
+### House stack: `STACK.md`
+
+`rn-craft-init` and `rn-craft-arch` come with a default stack: Community CLI, TypeScript, Yarn, React Navigation,
+Redux Toolkit + RTK Query, MMKV, i18next, react-hook-form + Zod, Reanimated, `@gorhom/bottom-sheet`, React Native
+Firebase, and Adapty, AdMob, Vision Camera, Skia and Hot Updater when the product needs them. A project's `STACK.md`
+overrides any of it and holds the decisions an agent must not guess, such as the bundle id prefix
+(`com.limoncreatif` → `com.limoncreatif.<appslug>`). The template is in
+[`skills/rn-craft-init/references/stack-template.md`](skills/rn-craft-init/references/stack-template.md).
+
 ## FAQ
 
 **Does it work with Expo?** Yes. The rules read plain React Native code, so Expo, bare React Native and Expo Router
-all work.
+all work. `rn-craft-init` creates new apps with the Community CLI unless you ask for Expo, and keeps an existing Expo
+app on Expo.
 
 **Does it replace `@react-native/eslint-config` or `eslint-plugin-react-native`?** No, it sits next to them. Those
 cover JavaScript and React correctness. rn-craft covers how the app looks, moves and renders.

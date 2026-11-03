@@ -19,7 +19,8 @@ first edit.
    If the project does not use the plugin yet, install `eslint-plugin-rn-craft` and extend
    `plugin:rn-craft/recommended` (`.eslintrc`) or `rnCraft.configs['flat/recommended']` (`eslint.config.js`) on a
    branch; keep the project's parser settings so TypeScript files are read.
-3. Take screenshots on iOS and Android (simulator/emulator), light and dark, largest text size. The review rules
+3. Take screenshots on iOS and Android (simulator/emulator), light and dark, largest text size, Android with
+   3-button and with gesture navigation. The review rules
    need them: platform pattern, thumb zone, safe areas, one accent, empty/loading states, contrast, long labels.
 4. Write the audit as one short list grouped by area, worst first: problem, where, rule.
 
@@ -34,8 +35,9 @@ If the screen is already good, say so and suggest two or three refinements inste
 
 ## 3. Fix in passes, across the whole screen
 
-1. **Pattern and navigation:** centered modals become sheets / pushed screens / native alerts; native stack;
-   back closes sheets; primary action in the thumb zone; platform controls instead of hand-made ones.
+1. **Pattern and navigation:** centered modals and `Alert.alert` become sheets / pushed screens / the app's
+   `ConfirmSheet`; native stack; back closes sheets; primary action in the thumb zone; one-off controls become the
+   app's shared components.
 2. **Spacing and layout:** tokens on a 4 pt grid; consistent screen gutters (16 or 20); group related rows; safe
    areas and keyboard.
 3. **Surfaces and colour:** surface steps or hairlines instead of shadows; one accent; status colours for status only;

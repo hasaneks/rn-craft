@@ -1,6 +1,6 @@
 ---
 name: rn-craft-perf
-description: "Audits and fixes React Native / Expo performance: unnecessary re-renders, context and store subscriptions, state placement, derived state in effects, list virtualization and row memoization, JS-thread animations, scroll handlers, images, startup time and memory leaks. Measures with the React DevTools profiler, the rn-craft lint rules and on-device frame rates, then fixes the biggest cost first and proves it with before/after numbers. Use when a screen is slow, janky, scrolls badly, re-renders too much, starts slowly, or before shipping a list-heavy or animation-heavy screen."
+description: "Audits and fixes React Native / Expo performance: unnecessary re-renders, context and store subscriptions, state placement, derived state in effects, list virtualization and row memoization, JS-thread animations, scroll handlers, images, startup time, memory leaks, app and bundle size, Android R8/ProGuard release builds. Measures with the React DevTools profiler, the rn-craft lint rules and on-device frame rates, then fixes the biggest cost first and proves it with before/after numbers. Use when a screen is slow, janky, scrolls badly, re-renders too much, starts slowly, or before shipping a list-heavy or animation-heavy screen."
 ---
 
 # React Native performance
@@ -14,6 +14,7 @@ behind it. Read the reference that matches the symptom before changing code:
 | List scrolls with blank cells or drops frames | `references/lists.md` |
 | Animation or gesture stutters | `references/animation.md` |
 | Slow launch, slow first screen, memory grows | `references/startup-memory.md` |
+| App or JS bundle too large, release build setup (R8 / ProGuard) | `references/bundle-size.md` |
 | How to measure any of the above | `references/measuring.md` |
 
 ## 1. Measure
@@ -52,4 +53,4 @@ Ask, in this order:
 ## 4. Prove it
 
 Report before → after for the same interaction and build: fps (JS/UI), profiler commits and slowest commit, render
-counts of the hot components, startup time if relevant, lint findings. Run typecheck and tests.
+counts of the hot components, startup time and app size if relevant, lint findings. Run typecheck and tests.

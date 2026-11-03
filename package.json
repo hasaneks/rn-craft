@@ -1,7 +1,7 @@
 {
   "name": "eslint-plugin-rn-craft",
-  "version": "0.1.0",
-  "description": "Design and performance rules for React Native apps built with AI coding agents: an ESLint plugin that keeps spacing, type, colour, accessibility, re-renders, lists, state selectors and animations honest, plus agent skills that build, fix and profile screens.",
+  "version": "0.2.0",
+  "description": "Design and performance rules for React Native apps built with AI coding agents: an ESLint plugin that keeps spacing, type, colour, accessibility, re-renders, lists, state selectors and animations honest, plus agent skills that build, fix and profile screens, set up new projects and wire up data, storage, i18n, permissions, Firebase, purchases and OTA.",
   "author": "Hasan Ekşi",
   "repository": {
     "type": "git",
@@ -45,6 +45,11 @@
     "design-tokens",
     "accessibility",
     "i18n",
+    "architecture",
+    "redux-toolkit",
+    "mmkv",
+    "i18next",
+    "firebase",
     "agent-skill",
     "claude-code",
     "cursor",

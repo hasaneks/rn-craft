@@ -27,6 +27,13 @@ Pick the home for each piece of state by what it is, not by which library is ins
 - **Context is not a state manager** for changing data: every consumer re-renders on every change. Use it for
   dependency injection and rarely-changing values (theme, i18n, services).
 
+## RTK Query
+
+The default when the app already uses Redux Toolkit (and in projects set up with `rn-craft-init`). One `createApi`,
+features `injectEndpoints`; `selectFromResult` to subscribe to a slice of the data; tags for invalidation;
+`setupListeners` wired to `AppState` and NetInfo (browser focus events do not exist); `resetApiState()` on sign-out.
+Do not copy query data into slices. Details: `rn-craft-arch` → `references/data.md`.
+
 ## TanStack Query
 
 - Query keys include every input (`['orders', { status, page }]`); `select` to subscribe to a slice; `staleTime` set

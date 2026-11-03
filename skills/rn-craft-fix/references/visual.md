@@ -22,6 +22,22 @@
 - No cards inside cards; a grouped list (iOS inset grouped) is one card with rows.
 - No decorative gradients, glows, blurred blobs, glass on data screens.
 
+## Text density
+
+- Start from the screen's job and its primary action; hierarchy follows them.
+- One title. Remove eyebrows and subtitles that repeat it ("Manage your preferences" over "Settings") and intro
+  paragraphs that restate the screen.
+- Helper text stays only where it helps a decision. Replace the rest with icons, status marks, short labels, images
+  and list rows. Keep error explanations and accessibility text.
+- Remove technical details the user cannot act on.
+
+## Icons
+
+- One SVG family (SVG Repo or similar) with one stroke width, corner style and fill style; never mix families on a
+  screen.
+- SVGs cleaned of metadata, bundled in the app, rendered with `react-native-svg` through a typed `Icon` component
+  with size and theme colour props. Brand marks and flags keep their own colours.
+
 ## Generated-UI tells to remove
 
 - Emoji as icons or in headings; "Welcome back, Alex 👋"; exclamation copy.
