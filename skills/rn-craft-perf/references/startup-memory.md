@@ -34,6 +34,8 @@
 
 ## Bundle and JS work
 
+App size, R8 / ProGuard and release build settings: `bundle-size.md`.
+
 - Analyze the bundle (`react-native-bundle-visualizer`, Expo Atlas); replace heavy libraries (moment → date-fns/Intl,
   lodash → per-function imports).
 - Move heavy computation off the render path: memoized selectors, precomputed on the server, or a worklet/thread

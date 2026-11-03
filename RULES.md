@@ -20,25 +20,30 @@ A project's own `DESIGN.md` (or the file named in the skill) wins over these def
 
 ### prefer-bottom-sheet
 **lint.** A short task (pick, filter, confirm with details, share) opens in a bottom sheet; a long task pushes a
-screen; a yes/no question is a native alert or action sheet.
+screen; a yes/no question or a list of actions is the app's own confirm or action sheet.
 **Why:** a centered card over a dimmed page is a web pattern. On a phone the bottom of the screen is where the thumb
 is, sheets can be dragged away, and both platforms ship them (iOS sheet detents, Material bottom sheets).
 **Fix:** `@gorhom/bottom-sheet` (or the project's `BottomSheet`), `presentation: 'formSheet'` in a native stack with
-`sheetAllowedDetents`, `<Modal presentationStyle="pageSheet">` on iOS, `Alert.alert` / `ActionSheetIOS` / a native
-menu (`@react-native-menu/menu`, `zeego`) for choices. A side drawer is not a modal; this rule can be off for it.
+`sheetAllowedDetents`, `<Modal presentationStyle="pageSheet">` on iOS, and the app's `ConfirmSheet` / `ActionSheet`
+built on the sheet for confirmations and choices (not `Alert.alert` or `ActionSheetIOS`, which cannot be themed). A
+side drawer is not a modal; this rule can be off for it.
 
 ### native-navigation
 **review.** Screens use a native stack (`@react-navigation/native-stack`, `expo-router` stacks): iOS swipe-back,
 large titles where the list is the screen, Android predictive back, the system back button closes sheets first.
 **Why:** people navigate by muscle memory; a JS stack or a custom back gesture breaks it.
-**Fix:** native stack; never block the back gesture without a reason (unsaved changes → confirm with a native alert).
+**Fix:** native stack; never block the back gesture without a reason (unsaved changes → confirm with the app's
+confirm sheet).
 
 ### platform-controls
-**review.** Use the platform's own control where one exists: date and time pickers, switches, segmented controls,
-menus, share sheet, pull-to-refresh (`RefreshControl`), haptics.
-**Why:** platform controls bring accessibility, localisation and the look users expect for free.
-**Fix:** `@react-native-community/datetimepicker`, `Switch` or a themed equivalent, `Share.share`, `RefreshControl`.
-Android presses show a ripple (`android_ripple`), iOS presses dim or highlight.
+**review.** Controls are the app's own shared components (date/time picker in a sheet, switch, segmented control,
+confirm and action sheets), themed from tokens, with platform behaviour: Android presses show a ripple
+(`android_ripple`), iOS presses dim or highlight, back closes them, accessibility roles and states are set. System UI
+stays only where nothing replaces it: permission prompts, `Share.share`, purchase and review dialogs, `RefreshControl`.
+**Why:** system alerts, menus and pickers ignore the theme, dark mode tokens and brand type, so the app looks like two
+products. Shared components keep one look and one accessibility contract.
+**Fix:** build `ConfirmSheet`, `ActionSheet`, `DatePicker`, `Switch` and `SegmentedControl` once in the shared UI
+folder and use them everywhere.
 
 ### thumb-zone
 **review.** The primary action of a screen sits where the thumb reaches: a bottom bar or the bottom of a sheet for

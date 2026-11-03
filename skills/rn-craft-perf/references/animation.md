@@ -11,6 +11,17 @@
 - `useDerivedValue` for values computed from other shared values; `useAnimatedReaction` to react to thresholds.
 - Shadows, blur (`BlurView`) and large semi-transparent layers are expensive on Android, especially while animating;
   avoid animating them.
-- Lottie / Rive for illustrations: native renderers, but large files cost memory; pause when off screen.
-- Skia (`@shopify/react-native-skia`) for custom drawing and charts driven by shared values.
+- Which library for which job: `rn-craft-fix` → `references/motion.md` ("Choosing the tool").
+- Reanimated 4 CSS transitions and animations run on the UI thread like shared-value animations; keep them on
+  `transform` and `opacity` too.
+- Lottie (through Skia Skottie) and Rive illustrations cost memory with large files; pause when off screen, keep
+  files small (no embedded large images), and test on a low-end Android device. Do not add `lottie-react-native`
+  next to Skia: one Lottie player per app.
+- Skia (`@shopify/react-native-skia`) for custom drawing and charts driven by shared values. Standard UI transitions
+  stay in Reanimated; do not draw ordinary components on a Canvas.
+- Skia v3 has its own minimum iOS / Android, GPU and (on Android) graphics backend requirements; check them against
+  the product's device range and say so if they conflict.
+- Lottie through Skia: `Skia.Skottie.Make(json)` once (module scope or `useMemo`, assets cached), never per render or
+  per focus. Check fonts, images and effects of each Lottie file on a real device; Skottie does not support every
+  After Effects feature.
 - Stop loops when the screen blurs (`useIsFocused`) or when Reduce Motion is on.
