@@ -201,7 +201,7 @@ bileşenler ve ürününüzün asla yapmadığı şeyler. Skill'ler önce onu ok
 Navigation, Redux Toolkit + RTK Query, MMKV, i18next, react-hook-form + Zod, Reanimated, `@gorhom/bottom-sheet`,
 React Native Firebase; ürün gerektirdiğinde Adapty, AdMob, Vision Camera, Skia ve Hot Updater. Projenin `STACK.md`
 dosyası bunların herhangi birini değiştirebilir ve ajanın tahmin etmemesi gereken kararları tutar, örneğin bundle id
-öneki (`com.limoncreatif` → `com.limoncreatif.<appslug>`). Şablon:
+öneki (`com.example` → `com.example.<appslug>`). Şablon:
 [`skills/rn-craft-init/references/stack-template.md`](skills/rn-craft-init/references/stack-template.md).
 
 ## Sık sorulanlar

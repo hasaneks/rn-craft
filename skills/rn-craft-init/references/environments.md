@@ -8,7 +8,7 @@
 | staging | `<prefix>.<appslug>.staging` | `<App> Staging` | staging | `staging` |
 | production | `<prefix>.<appslug>` | `<App>` | prod | `production` |
 
-`<prefix>` comes from `STACK.md` (for example `com.limoncreatif`). Slug: the app name lower-cased, accents removed
+`<prefix>` comes from `STACK.md` (for example `com.example`). Slug: the app name lower-cased, accents removed
 (`ş→s`, `ı→i`, `ö→o`...), only `a-z0-9`, starting with a letter. Android does not allow dashes; keep both platforms
 identical. Different app icons (or a badge) for dev and staging help testers.
 

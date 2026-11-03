@@ -9,8 +9,8 @@ defaults; anything written here wins.
 ## Identity
 - App name: Demo App
 - App slug: demoapp
-- Bundle id prefix: com.limoncreatif
-- Production id: com.limoncreatif.demoapp (dev: .dev, staging: .staging)
+- Bundle id prefix: com.example
+- Production id: com.example.demoapp (dev: .dev, staging: .staging)
 
 ## Platforms
 - iOS minimum: 16.0 · Android minSdk: 24 · targetSdk: <current Play requirement>

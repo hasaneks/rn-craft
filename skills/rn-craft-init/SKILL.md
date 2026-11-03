@@ -81,7 +81,7 @@ Details and examples: `references/environments.md`.
 
 - Three environments: development, staging, production. iOS build configurations + schemes, Android
   `productFlavors`.
-- Production id: `<prefix>.<appslug>`, prefix from `STACK.md` (for example `com.limoncreatif`). Slug: app name in
+- Production id: `<prefix>.<appslug>`, prefix from `STACK.md` (for example `com.example`). Slug: app name in
   lower case, ASCII only, no spaces or dashes (`Demo App` → `demoapp`). Others: `.dev` / `.staging` suffixes and a
   marked display name, so all three install side by side.
 - Per environment: API base URL, Firebase project, ad and purchase keys, OTA channel, analytics on/off.

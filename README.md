@@ -199,7 +199,7 @@ use, and what your product never does. The skills read it first.
 Redux Toolkit + RTK Query, MMKV, i18next, react-hook-form + Zod, Reanimated, `@gorhom/bottom-sheet`, React Native
 Firebase, and Adapty, AdMob, Vision Camera, Skia and Hot Updater when the product needs them. A project's `STACK.md`
 overrides any of it and holds the decisions an agent must not guess, such as the bundle id prefix
-(`com.limoncreatif` → `com.limoncreatif.<appslug>`). The template is in
+(`com.example` → `com.example.<appslug>`). The template is in
 [`skills/rn-craft-init/references/stack-template.md`](skills/rn-craft-init/references/stack-template.md).
 
 ## FAQ
