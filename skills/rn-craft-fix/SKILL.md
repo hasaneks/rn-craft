@@ -58,3 +58,13 @@ with the reason (brand artwork colours, a side drawer that is not a modal).
 2. Take the same screenshots again and show them next to the before set.
 3. List anything left on purpose, with the reason.
 4. Run the project's typecheck and tests; the fix is not done while they fail.
+5. Look at the screens on a device, in both themes, for the things lint cannot see:
+   - a code step that leaves the phone or e-mail field on screen above the code input;
+   - `+90` / `90` / `0` inside a field that already shows the flag, or a masked value in an editable field;
+   - a sheet title crowding the first field, or sheets with different title sizes;
+   - sibling cards with different anatomies, an indent left by a marker column, stacked icon buttons;
+   - charts and bars that appear already filled, and Android pushes with no visible transition;
+   - a language or theme row with a generic icon instead of the current flag or theme icon.
+
+   References: `rn-craft` → `references/patterns.md` (one-time codes, prefixed inputs, cards, sheets, settings) and
+   `references/motion.md` (data and charts, screen transitions).

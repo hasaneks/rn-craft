@@ -49,6 +49,12 @@ Apply this whenever you write or review React Native UI or state code. The full 
   a full screen. Focus moves into the sheet and back to the trigger when it closes.
 - Forms: react-hook-form + Zod, messages from i18n, server field errors mapped to fields, input kept on failure,
   submit disabled while sending.
+- One-time codes: after "Send code" the phone or e-mail field gives way to a sent-to row ("+90 555 111 22 33 ·
+  Change") and the code input; the field never stays above the code. A field that shows the country flag holds the
+  national number only (`555 111 22 33`), and a masked API value never fills an editable field
+  (`references/patterns.md`).
+- Every bottom sheet uses one header component: one title size, at least 24 pt between the title and the first field.
+- Language and theme rows show the current choice: the selected language's flag, the current theme's icon.
 - Toast is for brief confirmation, never the only sign of an error that blocks the screen. Never show raw errors or
   stack traces; render errors go to an Error Boundary.
 
@@ -61,6 +67,9 @@ Apply this whenever you write or review React Native UI or state code. The full 
   flip, roll or rotate entrances. Loops only for loading/live indicators.
 - Animate `transform` and `opacity`, never `width`/`height`/`margin` per frame.
 - Respect Reduce Motion (`useReducedMotion`, `ReduceMotion.System`).
+- Rings, bars and charts animate in once on first show (arc fill, `scaleX` from the leading edge, 300-400 ms); not
+  drawn already full. Android pushes set `animation: 'ios_from_right'`; the native default fade reads as no
+  transition.
 
 **Visual**
 - Spacing, radius, font size, colour from theme tokens only. 4 pt grid. One accent colour.
@@ -75,6 +84,8 @@ Apply this whenever you write or review React Native UI or state code. The full 
   paragraph that restates the screen. Helper text only when it changes a decision. Use icons, status marks, short
   labels and rows instead. No technical implementation details that do not help the user decide.
 - Not everything is a card. No decorative gradients, badges or shadows to make a screen look rich.
+- Sibling cards share one anatomy (leading tile, text, trailing chevron or action), status dots sit inline before the
+  title, stat tiles read label then value, and card actions are labelled buttons in one row, not stacked icons.
 
 **Copy and accessibility**
 - Sentence case, no exclamation marks, no "Welcome back" headlines, buttons say what they do.

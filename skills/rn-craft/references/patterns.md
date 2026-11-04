@@ -22,7 +22,8 @@ stack traces.
 
 ## Settings: language
 
-- Row: icon, "Language", current language name on the trailing side, chevron.
+- Row: the **flag of the language it is set to** as the leading element (not a generic globe or "language" icon),
+  "Language", the current language name on the trailing side, chevron. The row shows the choice, not the category.
 - Tap opens a bottom sheet: one row per supported locale. Leading: the flag the product chose for that locale.
   Middle: the language name in its own language (Türkçe, English, Deutsch). Trailing: a check mark on the selected
   one (`accessibilityState={{ selected: true }}`).
@@ -32,7 +33,8 @@ stack traces.
 
 ## Settings: theme
 
-- Row: icon, "Theme", current preference (Light / Dark / System, translated), chevron.
+- Row: the icon of the current preference (sun / moon / device) as the leading element, "Theme", the current
+  preference (Light / Dark / System, translated), chevron.
 - Sheet rows in this order: sun icon "Light", moon icon "Dark", device icon "System"; check mark on the selected one.
 - Tap: save the preference to MMKV, apply at once, close the sheet.
 - System: the applied scheme follows `useColorScheme()` / `Appearance` live; Light or Dark ignore OS changes.
@@ -40,10 +42,48 @@ stack traces.
 ## Bottom sheets
 
 - Content-height sheet up to a max (about 90% of the screen); content scrolls inside when longer.
+- One shared `SheetHeader` for every sheet: the title in one size for all sheets (not `sectionTitle` here and
+  `subtitle` there), an optional one-line subtitle, an optional close or back control in the trailing / leading slot.
+  It carries its own bottom space: **at least 24 pt between the title and the first field label or row**. A title
+  sitting directly on top of the first input's label reads as cramped and unfinished.
 - Safe area at the bottom, keyboard-aware inputs, Android back closes the sheet first, backdrop tap closes it (unless
   there is unsaved input).
 - One sheet at a time, no nested sheets. One shared `Sheet` component and a single sheet host.
 - Screen reader focus moves into the sheet when it opens and returns to the trigger when it closes.
+
+## One-time codes (OTP)
+
+- After "Send code", the phone or e-mail field **gives way** to the code step; it does not stay on screen above the
+  code input. The code step shows:
+  - a sent-to row: the number or address, formatted (`+90 555 111 22 33`), with a "Change" action;
+  - the code input (`textContentType="oneTimeCode"`, `autoComplete="sms-otp"`, autofocus, auto-submit when full);
+  - resend with a countdown.
+- "Change" brings the field back with the value kept and the code cleared.
+- The same pattern everywhere a code is sent: sign-in, onboarding, profile phone or e-mail change, step-up.
+
+## Phone and prefixed inputs
+
+- When a field shows the country (flag, `+90` addon), the value inside is the **national number only**, grouped as
+  typed (`555 111 22 33`). Never `+90…`, `90…` or a leading `0` next to the flag. Normalise pasted and autofilled
+  values the same way; send E.164 or whatever the API takes.
+- A masked value from the API (`+90 555 XXX 34 56`, `a•••@mail.com`) is display text. It never fills an editable
+  field (the field would show `905553456`). Prefill from the unmasked source, or leave the field empty.
+- The same applies to other prefixed values: currency inputs with a symbol addon, IBAN with `TR`, URLs with a scheme.
+
+## Cards in a list
+
+Sibling cards are scanned as a column, so they share one anatomy:
+
+- Leading column (icon tile, avatar or flag) → text column → trailing action (chevron or one control). Two kinds of
+  card in one list (site contacts and businesses, say) use the same anatomy, the same icon alignment (top) and the
+  same trailing element; not a "Contact" text link on one and a chevron on the other.
+- Status markers (unread dot, pin) sit inline before the title. A marker column that only some cards fill leaves the
+  others with an empty indent and makes padding look uneven.
+- Icons in detail rows sit in a fixed-width column, so text starts on one edge whatever the glyph's width.
+- Stat tiles read label first, then value ("Block · A Block"), never value over label ("A Block Block").
+- Actions on a card are labelled buttons in one row (Share, Revoke), not icon buttons stacked beside the content.
+  Long content with an action at the end becomes two bands: content, a divider, the code or figure with its actions.
+- Equal padding on all four sides; content height decides the card height, nothing stretches over empty space.
 
 ## Confirmations and action lists
 
