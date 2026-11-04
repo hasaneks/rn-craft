@@ -41,7 +41,8 @@ same declarative cases without another dependency.
 | Press feedback | 80-120 ms | linear / ease-out |
 | Small change (toggle, fade, chip select) | 150-200 ms | `Easing.out(Easing.cubic)` |
 | Element enter/exit, expand/collapse | 200-300 ms | ease-out in, ease-in out |
-| Sheet / screen transition | platform default (native stack, sheet library) | platform |
+| Sheet / screen transition | native stack; on Android set the push explicitly (below) | platform |
+| Chart or gauge fill on first show | 300-400 ms | ease-out |
 | Maximum | 400 ms | |
 
 Springs: `withSpring(v, { damping: 20, stiffness: 200 })` or Reanimated 4's duration-based springs
@@ -50,6 +51,24 @@ Springs: `withSpring(v, { damping: 20, stiffness: 200 })` or Reanimated 4's dura
 Entering presets: `FadeIn`, `FadeInDown`/`FadeInUp` (small offset), `SlideInRight` for pushed content, `ZoomIn` only for
 small elements like a badge. Not: `BounceIn*`, `RollIn*`, `LightSpeedIn*`, `PinwheelIn`, `FlipIn*`, `RotateIn*`,
 `StretchIn*`. Stagger list entrances at most 30-50 ms per item and only for the first screenful.
+
+## Screen transitions
+
+- iOS native stack: the default push is right. Android's native-stack default is a faint fade that reads as no
+  transition at all; set `animation: 'ios_from_right'` (or `'slide_from_right'`) for pushes so screens move.
+- Bottom tabs: `animation: 'shift'` (or `'fade'`) instead of a hard cut.
+- A modal screen presents from the bottom; a sheet is a sheet, not a screen with a fade.
+
+## Data and charts
+
+Rings, gauges, progress bars and chart series **animate in once, on first show**, so the number reads as measured
+rather than printed:
+
+- A ring fills its arc from 0 to the value (`useAnimatedProps` on `strokeDashoffset`); a bar grows from the leading
+  edge (`scaleX` with `transformOrigin: 'left'`, not `width`); a series draws or rises in.
+- 300-400 ms, ease-out, after the card it sits in has entered. A centre icon or label may settle in just after.
+- Under Reduce Motion the value is drawn at rest.
+- Not again on refresh or on every value change; a changed value tweens from the old one.
 
 ## What not to animate
 

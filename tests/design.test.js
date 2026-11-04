@@ -85,7 +85,7 @@ run('pressable-name', {
 });
 
 run('locale-aware-case', {
-  valid: ['name.toLocaleUpperCase("tr-TR");', 'name.toLocaleLowerCase(locale);', '(p.countryCode ?? "tr").toUpperCase();', 'item.iso2.toUpperCase();', 'method.toUpperCase();'],
+  valid: ['name.toLocaleUpperCase("tr-TR");', 'name.toLocaleLowerCase(locale);', '(p.countryCode ?? "tr").toUpperCase();', 'item.iso2.toUpperCase();', 'method.toUpperCase();', 'search.toString();', 'value.valueOf();'],
   invalid: [
     ['const a = city.toUpperCase();', 'naive'],
     ['const b = query.trim().toLowerCase();', 'naive'],
