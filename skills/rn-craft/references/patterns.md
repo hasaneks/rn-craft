@@ -48,6 +48,11 @@ stack traces.
   sitting directly on top of the first input's label reads as cramped and unfinished.
 - Safe area at the bottom, keyboard-aware inputs, Android back closes the sheet first, backdrop tap closes it (unless
   there is unsaved input).
+- Android back: `@gorhom/bottom-sheet` does **not** handle the hardware back button, so without code back leaves the
+  screen (or the app) from under an open sheet. The shared sheet component tracks open/closed through `onChange` and,
+  while open, registers a `BackHandler` listener that dismisses the sheet and returns `true`; a sheet that cannot be
+  dismissed right now (an action running) still returns `true`. Test it: present, fire the back handler, expect the
+  content gone.
 - One sheet at a time, no nested sheets. One shared `Sheet` component and a single sheet host.
 - Screen reader focus moves into the sheet when it opens and returns to the trigger when it closes.
 
