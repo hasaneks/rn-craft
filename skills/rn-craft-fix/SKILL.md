@@ -65,6 +65,7 @@ with the reason (brand artwork colours, a side drawer that is not a modal).
    - sibling cards with different anatomies, an indent left by a marker column, stacked icon buttons;
    - charts and bars that appear already filled, and Android pushes with no visible transition;
    - a language or theme row with a generic icon instead of the current flag or theme icon.
+   - Android back on an open sheet: it must close the sheet, not leave the screen.
 
    References: `rn-craft` → `references/patterns.md` (one-time codes, prefixed inputs, cards, sheets, settings) and
    `references/motion.md` (data and charts, screen transitions).
